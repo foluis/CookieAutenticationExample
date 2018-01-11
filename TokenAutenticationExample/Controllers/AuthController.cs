@@ -21,8 +21,11 @@ namespace TokenAutenticationExample.Controllers
         }
 
         //Get Authorized Resource
+
         //Log in (authenticate)
+
         //Get Authorized Resource Rol Admin
+
         //Get Authorized Resource Rol Supervisor
     }
 }
