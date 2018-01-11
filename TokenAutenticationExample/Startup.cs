@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,28 @@ namespace TokenAutenticationExample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) //< --Default schem "Cookies"
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Auth/AccessDeniedPath";
+                    options.LoginPath = "/Auth/LoginPath";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SuperUser",
+                    policy =>
+                    {
+                        policy.RequireAuthenticatedUser().RequireRole("SuperUser");
+                    });
+
+                options.AddPolicy("MustBeAdmin",
+                    policy =>
+                    {
+                        policy.RequireAuthenticatedUser().RequireRole("Admin");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,6 +56,8 @@ namespace TokenAutenticationExample
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
