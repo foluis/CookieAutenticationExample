@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using TokenAutenticationExample.Models;
 
 namespace TokenAutenticationExample.Controllers
@@ -68,7 +65,7 @@ namespace TokenAutenticationExample.Controllers
                             new Claim(ClaimTypes.Email, appUser.Email),
                             new Claim(ClaimTypes.Role, "SuperUser"),
                             new Claim(ClaimTypes.Role, "Admin")
-                        };  
+                        };
 
                         var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -107,7 +104,7 @@ namespace TokenAutenticationExample.Controllers
             }
         }
 
-        //Logout 
+        //Logout
         [HttpGet("[action]")]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
@@ -131,11 +128,5 @@ namespace TokenAutenticationExample.Controllers
         {
             return "LoginPath Message";
         }
-
-
-
-        //Get Authorized Resource Rol Admin
-
-        //Get Authorized Resource Rol Supervisor
     }
 }
